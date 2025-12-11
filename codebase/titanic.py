@@ -4,6 +4,7 @@ import requests
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
+from sklearn.model_selection import train_test_split
 
 #------------------------------
 # Defiene colors
@@ -168,3 +169,22 @@ if not os.path.exists(gender_plot_path):
     print(f"{GREEN}✓ Created gender vs survived plot{RESET}")
 else:
     print(f"{CAYAN}✓ Gender vs survived plot already exists{RESET}")
+
+
+# ------------------------------
+# Split Dataset into Train and Test
+# ------------------------------
+
+x = df.drop(columns=[target_col])
+y = df[target_col]
+
+x_temp, x_unseen, y_temp, y_unseen = train_test_split(x, y, test_size=0.1, random_state=42, stratify=y)
+
+x_train , x_test, y_train, y_test = train_test_split(x_temp, y_temp, test_size=0.2222, random_state=67)
+#display train/test/unseen set shape then data distribution
+print(f"\n{BLUE}=== Dataset Splits ==={RESET}")
+print("Train set shape:", x_train.shape, y_train.shape)
+print("Test set shape:", x_test.shape, y_test.shape)
+print("Unseen set shape:", x_unseen.shape, y_unseen.shape)
+print("\nTrain set distribution:\n", y_train.value_counts(normalize=True))
+
